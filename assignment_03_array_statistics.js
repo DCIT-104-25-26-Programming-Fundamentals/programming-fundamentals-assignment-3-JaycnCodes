@@ -43,4 +43,59 @@
 // YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
 // =============================================================================
 
+const readlineSync = require('readline-sync');
 
+function findsum(numbers) {
+  let sum = 0;
+  for (let i = 0; i < numbers.length; i++) {
+    sum += numbers[i];
+  }
+  return sum;
+}
+
+function findaverage(numbers) {
+  const sum = findsum(numbers);
+  return sum / numbers.length;
+}
+
+function findmax(numbers) {
+  let max = numbers[0];
+  for (let i = 1; i < numbers.length; i++) {
+    if (numbers[i] > max) {
+      max = numbers[i];
+    }
+  }
+  return max;
+}
+
+function findminimum(numbers) {
+  let minimum = numbers[0];
+  for (let i = 1; i < numbers.length; i++) {
+    if (numbers[i] < minimum) {
+      minimum = numbers[i];
+    }
+  }
+  return minimum;
+}
+
+function main() {
+    const count = readlineSync.questionInt('How many numbers? ');
+    if (count <= 0) {
+        console.log('Error: Please enter a positive integer greater than 0.');
+        return;
+    }
+    const numbers = [];
+
+    for (let i = 0; i < count; i++) {
+        const number = readlineSync.questionInt(`Enter number ${i + 1}: `);
+        numbers.push(number);
+    }
+    
+
+    console.log('\nResults:');
+    console.log(`Sum:     ${findsum(numbers)}`);
+    console.log(`Average: ${findaverage(numbers)}`);
+    console.log(`Maximum: ${findmax(numbers)}`);
+    console.log(`Minimum: ${findminimum(numbers)}`)
+}
+main();
