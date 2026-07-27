@@ -85,3 +85,140 @@
 // =============================================================================
 
 
+const readlineSync=require('readline-sync');
+
+let students=[];
+
+function calculateAverage(scores){
+    if(scores.length===0) return 0;
+
+    let sum=0
+    for(let i=0;i<scores.length;i++){
+        sum+=scores[i];
+    }
+    return sum/scores.length;
+}
+
+function addStudent(){
+    const name= readlineSync.question('Student name: ').trim();
+    if(name===''){
+        console.log('Error: Student name cannot be empty.\n');
+        return;
+    }
+    const idInput=readlineSync.question('Student ID: ').trim();
+    const id= Number(idInput);
+    if (isNaN(id)|| !Number.isInteger(id)||id<=0){
+        console.log('Error: Please enter a valid numerical ID.\n');
+        return;
+    }
+
+    const countInput=readlineSync.question('How many scores? ').trim();
+    const scoreCount= Number(countInput);
+    if(isNaN(scoreCount)|| !Number.isInteger(scoreCount)||scoreCount<=0){
+        console.log('Error: Score count must be a positive integer.\n');
+        return;
+    }
+    let scores=[];
+    for(let i=1;i<=scoreCount;i++){
+        const scoreVal=readlineSync.question(`Enter score ${i}: `).trim();
+        const score = Number(scoreVal);
+
+        if(isNaN(score)||score<0||score>100){
+            console.log('Error: Score must be a number between 0 and 100.\n');
+            return;
+        }
+        scores.push(score);
+    }
+
+    const newStudent={
+        name: name,
+        id: id,
+        scores:scores
+    };
+
+    students.push(newStudent);
+    console.log(`Student "${name}" added successfully.\n`);
+}
+
+function displayAllStudents(){
+    if(students.length===0){
+        console.log('No student records found.\n');
+        return;
+    }
+    console.log('Student Records');
+    for (let i=0;i<students.length;i++){
+        const student=students[i];
+        const avg=calculateAverage(student.scores);
+        const scoresFormatted=student.scores.join(' , ');
+
+        console.log(`ID: ${student.id}| Name: ${student.name}|Scores:[${scoresFormatted}]| Average: ${avg.toFixed(2)}`);
+    }
+    console.log('');
+    }
+function calculateStudentAverage(){
+    if(students.length===0){
+        console.log('No student records found.\n');
+        return;
+    }
+
+    const idInput=readlineSync.question('Enter student Id: ').trim();
+    const targetId=Number(idInput);
+
+    if(isNaN(targetId)){
+        console.log('Error: Invalid ID format.\n');
+        return;
+    }
+
+    let foundStudent=null;
+    for (let i=0;i<students.length;i++){
+        if (students[i].id===targetId){
+            foundStudent=students[i];
+            break;
+        }
+    }
+
+    if (!foundStudent){
+        console.log(`Error: No student found with ID ${targetId}.\n`);
+        return;
+    }
+
+    const avg=calculateAverage(foundStudent.scores);
+    console.log(`${foundStudent.name}'s average score:${avg.toFixed(2)}\n`);
+
+}
+
+function main(){
+    let running=true;
+
+    while (running){
+        console.log('Student Record System Menu');
+        console.log('1.Add student');
+        console.log('2. Display all students');
+        console.log('3. Calculate average score');
+        console.log('4. Quit');
+
+        const choice=readlineSync.question('Enter your choice (1-4): ').trim();
+        console.log('');
+
+        switch(choice){
+            case '1':
+                addStudent();
+                break;
+            case '2':
+                displayAllStudents();
+                break;
+            case'3':
+                calculateStudentAverage();
+                break;
+            case'4':
+                console.log('Goodbye!');
+                running=false;
+                break;
+            default:
+                console.log('Error: Invalid choice. Please enter a number between 1 and 4.\n');
+                break;           
+            }
+    
+        }
+}
+main();
