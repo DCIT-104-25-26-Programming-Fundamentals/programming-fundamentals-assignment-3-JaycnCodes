@@ -59,4 +59,52 @@
 // YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
 // =============================================================================
 
+const readlineSync = require('readline-sync');
 
+function printSingleTable(){
+    const input= readlineSync.question('Enter a number: ');
+    const num= Number(input);
+
+    if(isNaN(num)|| !Number.isInteger(num)|| num<=0){
+        console.log('Error: Please enter a positive integer.\n');
+        return;
+    }
+    console.log(`\nMultiplication Table for ${num}:`);
+    for (let i=1;i<=12;i++){
+        console.log(`${num} x ${i}=${num * i}`);
+    }
+    console.log('\n');
+}
+
+
+function printTablesUpToN(){
+    const input = readlineSync.question('Enter N to generate tables from 1 to N: ');
+    const n = Number(input);
+
+    if (isNaN(n)||!Number.isInteger(n)||n<=0){
+        console.log('Error: Please enter a positive integer.\n');
+        return;
+    }
+
+    for (let currentNum=1; currentNum<=n; currentNum++){
+        console.log(`\nMultiplication Table for ${currentNum}:`);
+        for (let i=1;i<=12;i++){
+            console.log(`${currentNum} x ${i}= ${currentNum*i}`);
+        }
+        if (currentNum<n){
+            console.log('--------------------------')
+        }
+        }
+        console.log('\n')
+    }
+
+
+function main(){
+    console.log('Part A');
+    printSingleTable();
+
+    console.log('Part B');
+    printTablesUpToN();
+}
+
+main();
